@@ -1,0 +1,166 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>UML Forge</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+    }
+
+    body {
+      height: 100vh;
+      display: flex;
+      flex-direction: column;
+      background: #f4f4f4;
+    }
+
+    /* Header */
+    header {
+      height: 60px;
+      background: #1e1e1e;
+      color: white;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 20px;
+    }
+
+    header select,
+    header button {
+      margin-left: 10px;
+      padding: 6px 10px;
+    }
+
+    /* Main Layout */
+    .container {
+      flex: 1;
+      display: flex;
+      height: calc(100vh - 60px);
+    }
+
+    .sidebar {
+      width: 22%;
+      background: #ffffff;
+      border-right: 1px solid #ccc;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .builder {
+      width: 43%;
+      background: #fafafa;
+      border-right: 1px solid #ccc;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    .preview {
+      width: 35%;
+      background: #ffffff;
+      padding: 15px;
+      overflow-y: auto;
+    }
+
+    h2 {
+      margin-bottom: 10px;
+    }
+
+    .section {
+      margin-bottom: 20px;
+    }
+
+    input, select, button {
+      margin-top: 5px;
+      margin-bottom: 10px;
+      padding: 6px;
+      width: 100%;
+    }
+
+    button {
+      cursor: pointer;
+    }
+
+    .list-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: #eaeaea;
+      padding: 6px;
+      margin-bottom: 5px;
+    }
+
+    .message-row {
+      border: 1px solid #ddd;
+      padding: 10px;
+      margin-bottom: 10px;
+      background: #ffffff;
+    }
+  </style>
+</head>
+
+<body>
+
+  <!-- HEADER -->
+  <header>
+    <div>
+      <strong>UML Forge</strong>
+    </div>
+
+    <div>
+      <select id="diagramType">
+        <option value="sequence">Sequence Diagram</option>
+        <option value="class">Class Diagram</option>
+        <option value="usecase">Use Case Diagram</option>
+      </select>
+
+      <button id="generateBtn">Generate</button>
+      <button id="clearBtn">Clear</button>
+    </div>
+  </header>
+
+  <!-- MAIN CONTENT -->
+  <div class="container">
+
+    <!-- SIDEBAR -->
+    <div class="sidebar">
+      <h2>Components</h2>
+
+      <div class="section" id="actorsSection">
+        <h3>Actors</h3>
+        <input type="text" id="actorInput" placeholder="Actor name">
+        <button id="addActorBtn">Add Actor</button>
+
+        <div id="actorsList"></div>
+      </div>
+
+    </div>
+
+    <!-- BUILDER -->
+    <div class="builder">
+      <h2>Relationships</h2>
+
+      <div id="messagesContainer"></div>
+
+      <button id="addMessageBtn">Add Message</button>
+    </div>
+
+    <!-- PREVIEW -->
+    <div class="preview">
+      <h2>Preview</h2>
+      <div id="previewArea">
+        <p>Your diagram will appear here.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <script src="app.js"></script>
+</body>
+</html>
+
