@@ -4,9 +4,7 @@
 
 const state = {
   diagramType: "sequence",
-
   actors: [],
-
   messages: [
     /*
       {
@@ -24,34 +22,32 @@ const state = {
 // ===============================
 // UTILITY: GENERATE UNIQUE ID
 // ===============================
-
 function generateId() {
-  return "_" + Math.random().toString(36).substr(2, 9);
+    return "_" + Math.random().toString(36).substr(2, 9);
 }
+
 
 
 // ===============================
 // STATE MUTATION FUNCTIONS
 // ===============================
-
 function addActor(name) {
   if (!name) return;
 
   if (state.actors.includes(name)) {
-    alert("Actor already exists.");
-    return;
+      return alert("Actor already exists.");
   }
 
-  state.actors.push(name);
-  renderActors();
+    state.actors.push(name);
+    renderActors();
 }
 
 
 function removeActor(name) {
-  state.actors = state.actors.filter(actor => actor !== name);
+    state.actors = state.actors.filter(actor => actor !== name);
 
-  // Also remove messages involving that actor
-  state.messages = state.messages.filter(msg =>
+    // Also remove messages involving that actor
+    state.messages = state.messages.filter(msg =>
     msg.from !== name && msg.to !== name
   );
 
@@ -62,8 +58,7 @@ function removeActor(name) {
 
 function addMessage() {
   if (state.actors.length < 2) {
-    alert("You need at least 2 actors.");
-    return;
+      return alert("You need at least 2 actors.");
   }
 
   const newMessage = {
@@ -106,7 +101,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
   document.getElementById("addMessageBtn")
     .addEventListener("click", addMessage);
-
 });
 
 
@@ -116,25 +110,26 @@ document.addEventListener("DOMContentLoaded", () => {
 // ===============================
 
 function renderActors() {
-  const actorsList = document.getElementById("actorsList");
-  actorsList.innerHTML = "";
+    const actorsList = document.getElementById("actorsList");
+    actorsList.innerHTML = "";
 
-  state.actors.forEach(actor => {
-    const div = document.createElement("div");
-    div.className = "list-item";
 
-    div.innerHTML = `
-      <span>${actor}</span>
-      <button data-name="${actor}">x</button>
-    `;
+    state.actors.forEach(actor => {
+        const div = document.createElement("div");
+        div.className = "list-item";
+    
+        div.innerHTML = `
+          <span>${actor}</span>
+          <button data-name="${actor}">x</button>
+        `;
 
-    div.querySelector("button").addEventListener("click", (e) => {
-      removeActor(e.target.dataset.name);
-    });
-
-    actorsList.appendChild(div);
-  });
-}
+        div.querySelector("button").addEventListener("click", (e) => {
+          removeActor(e.target.dataset.name);
+        });
+    
+        actorsList.appendChild(div);
+      });
+    }
 
 
 
@@ -206,7 +201,6 @@ function renderMessages() {
 // ===============================
 
 function generatePlantUML() {
-
   if (state.diagramType !== "sequence") {
     alert("Only sequence diagram supported for now.");
     return "";
@@ -252,9 +246,6 @@ document.getElementById("generateBtn")
 
     } catch (err) {
       console.error(err);
-      alert("Failed to generate diagram.");
+      alert("Failed to generate diagram:", err);
     }
 });
-
-
-
