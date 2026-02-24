@@ -587,14 +587,17 @@ function generatePlantUML() {
 		return uml;
 	} else if (state.diagramType === "usecase") {
 		state.actorsUC.forEach(actor => {
-			uml += `actor ${actor}\n`;
+			uml += `actor "${actor}"\n`;
 		});
-		uml += "\n";
+		
 		state.useCases.forEach(uc => {
-			uml += `usecase ${uc}\n`;
+			uml += `usecase "${uc}"\n`;
 		});
+		
+		uml += "\n";
+		
 		state.useCaseLinks.forEach(link => {
-			uml += `${link.actor} --> ${link.useCase}\n`;
+			uml += `"${link.actor}" --> "${link.useCase}"\n`;
 		});
 
 		uml += "@enduml";
