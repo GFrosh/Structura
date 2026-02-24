@@ -24,7 +24,7 @@ Instead of writing raw PlantUML syntax, users interact with a controlled UI. The
 
 ```bash
 # Clone the repository
-git clone [<your-repo-url>](https://github.com/GFrosh/Structura.git)
+git clone https://github.com/GFrosh/Structura.git
 cd Structura
 
 # Install dependencies
