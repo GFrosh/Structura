@@ -603,12 +603,16 @@ function generatePlantUML() {
 		uml += "@enduml";
 		return uml;
 	}
+	console.log(uml);
+	console.error("Unknown diagram type:", state.diagramType);
+	return "";
 }
 
 
 document.getElementById("generateBtn").addEventListener("click", async () => {
 
-    const umlText = generatePlantUML();
+	const umlText = generatePlantUML();
+	console.log(umlText);
     if (!umlText) return alert("Failed to generate UML text.");
 
     try {
@@ -628,4 +632,5 @@ document.getElementById("generateBtn").addEventListener("click", async () => {
       console.error(err);
       alert("Failed to generate diagram:" + err.message);
     }
+
 });
