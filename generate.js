@@ -5,11 +5,9 @@ const { exec } = require("child_process");
 // 1. Define UML content
 const umlContent = `
 @startuml
-skinparam actorStyle awesome
-:User: --> (Use)
-"Main Admin" as Admin
-"Use the application" as (Use)
-Admin --> (Admin the application)
+actor "Student"
+usecase "Register Courses"
+
 @enduml
 `;
 
