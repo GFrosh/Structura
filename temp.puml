@@ -1,6 +1,0 @@
-@startuml
-actor Gideon
-actor Susan
-
-Gideon -> Susan: lovey dovey
-@enduml
