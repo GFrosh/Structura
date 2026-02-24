@@ -1,68 +1,99 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>UML Forge</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="stylesheet" href="./style.css" />
+	<meta charset="UTF-8">
+	<title>UML Forge</title>
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="./style.css" />
 </head>
 
 
 <body>
-  <!-- HEADER -->
-  <header>
-    <div>
-      <strong>UML Forge</strong>
-    </div>
+	<!-- HEADER -->
+	<header>
+		<div>
+			<strong>UML Forge</strong>
+		</div>
 
-    <div>
-      <select id="diagramType">
-        <option value="sequence">Sequence Diagram</option>
-        <option value="class">Class Diagram</option>
-        <option value="usecase">Use Case Diagram</option>
-      </select>
 
-      <button id="generateBtn">Generate</button>
-      <button id="clearBtn">Clear</button>
-    </div>
-  </header>
+		<div class="controls">
+			<select id="diagramType">
+				<option value="sequence">Sequence Diagram</option>
+				<option value="class">Class Diagram</option>
+				<option value="usecase">Use Case Diagram</option>
+			</select>
 
-  <!-- MAIN CONTENT -->
-  <div class="container">
+			<div id="coreBtns">
+				<button id="generateBtn">Generate</button>
+				<button id="clearBtn">Clear</button>
+			</div>
+		</div>
+	</header>
 
-    <!-- SIDEBAR -->
-    <div class="sidebar">
-      <h2>Components</h2>
 
-      <div class="section" id="actorsSection">
-        <h3>Actors</h3>
-        <input type="text" id="actorInput" placeholder="Actor name">
-        <button id="addActorBtn">Add Actor</button>
 
-        <div id="actorsList"></div>
-      </div>
+	<!-- MAIN CONTENT -->
+	<div class="container">
 
-    </div>
+		<!-- SEQUENCE DIAGRAM SECTION -->
+		<div class="section" id="sequenceSection">
+			<div class="sidebar">
+				<h2>Components</h2>
+				<div class="section" id="actorsSection">
+					<h3>Actors</h3>
+					<input type="text" id="actorInput" placeholder="Actor name">
+					<button id="addActorBtn">Add Actor</button>
+	
+					<div id="actorsList"></div>
+				</div>
+			</div>
+	
+			<!-- BUILDER -->
+			<div class="builder">
+				<h2>Relationships</h2>
+	
+				<div id="messagesContainer"></div>
+	
+				<button id="addMessageBtn">Add Message</button>
+			</div>
+	
+	
+			<!-- PREVIEW -->
+			<div class="preview">
+				<h2>Preview</h2>
+				<div id="previewArea">
+					<p>Your diagram will appear here.</p>
+				</div>
+			</div>
+		</div>
 
-    <!-- BUILDER -->
-    <div class="builder">
-      <h2>Relationships</h2>
 
-      <div id="messagesContainer"></div>
+		<!-- CLASS DIAGRAM SECTION -->
+		<div class="section" id="classSection" style="display:none;">
+			<h3>Classes</h3>
+			<input type="text" id="classInput" placeholder="Class name">
+			<button id="addClassBtn">Add Class</button>
+			<div id="classList"></div>
+		</div>
 
-      <button id="addMessageBtn">Add Message</button>
-    </div>
 
-    <!-- PREVIEW -->
-    <div class="preview">
-      <h2>Preview</h2>
-      <div id="previewArea">
-        <p>Your diagram will appear here.</p>
-      </div>
-    </div>
 
-  </div>
+		<!-- USE CASE DIAGRAM SECTION -->
+		<div class="section" id="useCaseSection" style="display:none;">
+			<h3>Use Cases</h3>
+			<input type="text" id="useCaseInput" placeholder="Use case name">
+			<button id="addUseCaseBtn">Add Use Case</button>
+			<div id="useCaseList"></div>
+		</div>
+	</div>
 
-  <script src="app.js"></script>
+
+
+
+
+
+
+	<script type="module" src="./app.js"></script>
+	<script type="module" src="./switch.js"></script>
 </body>
 </html>

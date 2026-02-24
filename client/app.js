@@ -1,4 +1,11 @@
 // ===============================
+// IMPORT STATEMENTS
+// ===============================
+import rotateNode from "./switch.js";
+
+
+
+// ===============================
 // GLOBAL APPLICATION STATE
 // ===============================
 
@@ -26,7 +33,7 @@ function generateId() {
 // STATE MUTATION FUNCTIONS
 // ===============================
 function addActor(name) {
-  if (!name) return;
+  if (!name) return alert("Actor name cannot be empty.");
 
   if (state.actors.includes(name)) {
       return alert("Actor already exists.");
@@ -80,11 +87,10 @@ function removeMessage(id) {
 
 document.addEventListener("DOMContentLoaded", () => {
 
-  document.getElementById("diagramType")
-    .addEventListener("change", (e) => {
+  document.getElementById("diagramType").addEventListener("change", (e) => {
       state.diagramType = e.target.value;
-      console.log("Diagram type changed:", state.diagramType);
-    });
+      rotateNode(e.target.value);
+	});
 
   document.getElementById("addActorBtn")
     .addEventListener("click", () => {
@@ -225,7 +231,7 @@ document.getElementById("generateBtn")
     if (!umlText) return;
 
     try {
-      const response = await fetch("http://10.100.171.107:3000/generate", {
+      const response = await fetch("/generate", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
