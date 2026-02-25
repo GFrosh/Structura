@@ -1,6 +1,6 @@
 # Structura 🛠️
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+[![License: ISC](https://img.shields.io/badge/License-ISC-blue.svg)](LICENSE)
 [![Node.js](https://img.shields.io/badge/Node.js-v18%2B-green.svg)](https://nodejs.org/)
 [![Java](https://img.shields.io/badge/Java-OpenJDK%2017%2B-orange.svg)](https://openjdk.org/)
 [![PlantUML](https://img.shields.io/badge/PlantUML-Required-red.svg)](https://plantuml.com/)
