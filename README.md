@@ -170,7 +170,7 @@ Designed as an academic and educational tool.
 
 ## 🧑‍💻 Support
 
-For issues, questions, or suggestions, please open an issue on the [GitHub repository](https://github.com/GFrosh/Structura).
+For issues, questions, or suggestions, please open an issue on the [GitHub repository](https://github.com/GFrosh/Structura/issues).
 
 ---
 
