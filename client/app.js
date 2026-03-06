@@ -3,6 +3,7 @@
 // ===============================
 import rotateNode from "./switch.js";
 import { qs, qsa, generateId } from "./utils.js";
+import { addActor, removeActor, addMessage, removeMessage } from "./types/sequence.js";
 
 
 
@@ -53,49 +54,6 @@ const state = {
 	// Generated SVG
 	lastGeneratedSvg: null
 };
-
-
-
-
-// =============================================
-// STATE MUTATION FUNCTIONS - SEQUENCE DIAGRAMS
-// =============================================
-function addActor(name) {
-	if (!name) return alert("Actor name cannot be empty.");
-	if (state.actors.includes(name)) return alert("Actor already exists.");
-	state.actors.push(name);
-	renderActors();
-}
-
-function removeActor(name) {
-  state.actors = state.actors.filter(actor => actor !== name);
-  state.messages = state.messages.filter(msg => msg.from !== name && msg.to !== name);
-  renderActors();
-  renderMessages();
-}
-
-function addMessage() {
-  if (state.actors.length < 2) return alert("You need at least 2 actors.");
-  const newMessage = {
-    id: generateId(),
-    from: state.actors[0],
-    to: state.actors[1],
-    arrow: "->",
-    text: ""
-  };
-  state.messages.push(newMessage);
-  renderMessages();
-}
-
-function removeMessage(id) {
-  state.messages = state.messages.filter(msg => msg.id !== id);
-  renderMessages();
-}
-
-
-
-
-
 
 
 
@@ -450,16 +408,18 @@ document.addEventListener("DOMContentLoaded", () => {
   // SEQUENCE EVENTS
   document.getElementById("addActorBtn").addEventListener("click", () => {
     const input = document.getElementById("actorInput");
-    addActor(input.value.trim());
+    addActor(state, input.value.trim(), renderActors);
     input.value = "";
   });
   document.getElementById("actorInput").addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
-      addActor(e.target.value.trim());
+      addActor(state, e.target.value.trim(), renderActors);
       e.target.value = "";
     }
   });
-  document.getElementById("addMessageBtn").addEventListener("click", addMessage);
+  document.getElementById("addMessageBtn").addEventListener("click", () => {
+    addMessage(state, renderMessages);
+  });
 
   // CLASS EVENTS
   document.getElementById("addClassBtn").addEventListener("click", () => {
@@ -594,7 +554,7 @@ function renderActors() {
       <span>${actor}</span>
       <button data-name="${actor}">×</button>
     `;
-    div.querySelector("button").addEventListener("click", (e) => removeActor(e.target.dataset.name));
+    div.querySelector("button").addEventListener("click", (e) => removeActor(state, e.target.dataset.name, renderActors, renderMessages));
     list.appendChild(div);
   });
 }
@@ -624,7 +584,7 @@ function renderMessages() {
     div.querySelector(".to").addEventListener("change", (e) => msg.to = e.target.value);
     div.querySelector(".arrow").addEventListener("change", (e) => msg.arrow = e.target.value);
     div.querySelector(".text").addEventListener("input", (e) => msg.text = e.target.value);
-    div.querySelector("button").addEventListener("click", (e) => removeMessage(e.target.dataset.id));
+    div.querySelector("button").addEventListener("click", (e) => removeMessage(state, e.target.dataset.id, renderMessages));
     container.appendChild(div);
   });
 }
