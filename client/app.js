@@ -4,6 +4,7 @@
 import rotateNode from "./switch.js";
 import { qs, qsa, generateId } from "./utils.js";
 import { addActor, removeActor, addMessage, removeMessage } from "./types/sequence.js";
+import { addClass, removeClass, addAttributeToClass, removeAttributeFromClass, addMethodToClass, removeMethodFromClass, addClassRelationship, removeClassRelationship } from "./class.js";
 
 
 
@@ -54,96 +55,6 @@ const state = {
 	// Generated SVG
 	lastGeneratedSvg: null
 };
-
-
-
-// ===========================================
-// STATE MUTATION FUNCTIONS - CLASS DIAGRAMS
-// ===========================================
-function addClass(name) {
-	if (!name) return alert("Class name cannot be empty.");
-	if (state.classes.some(cls => cls.name === name)) return alert("Class already exists.");
-	state.classes.push({
-		id: generateId(),
-		name,
-		isAbstract: false,
-		attributes: [],  // {name, visibility, type, isStatic}
-		methods: []       // {name, visibility, type, parameters, isStatic, isAbstract}
-	});
-	renderClasses();
-}
-
-function removeClass(id) {
-	state.classes = state.classes.filter(cls => cls.id !== id);
-	state.classRelationships = state.classRelationships.filter(rel => rel.from !== id && rel.to !== id);
-	renderClasses();
-	document.getElementById("classDetailsContainer").innerHTML = "<p>Select a class to edit its attributes and methods.</p>";
-}
-
-function addAttributeToClass(classId, attrData) {
-	const cls = state.classes.find(c => c.id === classId);
-	if (cls) {
-		// attrData = {name, visibility, type, isStatic}
-		cls.attributes.push({
-			name: attrData.name || "attr",
-			visibility: attrData.visibility || "+",
-			type: attrData.type || "String",
-			isStatic: attrData.isStatic || false
-		});
-		renderClassDetails(classId);
-	}
-}
-
-function removeAttributeFromClass(classId, index) {
-	const cls = state.classes.find(c => c.id === classId);
-	if (cls) {
-		cls.attributes.splice(index, 1);
-		renderClassDetails(classId);
-	}
-}
-
-function addMethodToClass(classId, methodData) {
-	const cls = state.classes.find(c => c.id === classId);
-	if (cls) {
-		// methodData = {name, visibility, returnType, parameters, isStatic, isAbstract}
-		cls.methods.push({
-			name: methodData.name || "method",
-			visibility: methodData.visibility || "+",
-			returnType: methodData.returnType || "void",
-			parameters: methodData.parameters || "",  // "param1: Type1, param2: Type2"
-			isStatic: methodData.isStatic || false,
-			isAbstract: methodData.isAbstract || false
-		});
-		renderClassDetails(classId);
-	}
-}
-
-function removeMethodFromClass(classId, index) {
-	const cls = state.classes.find(c => c.id === classId);
-	if (cls) {
-		cls.methods.splice(index, 1);
-		renderClassDetails(classId);
-	}
-}
-
-function addClassRelationship(fromClassId, toClassId, relationType) {
-	// relationType: "inheritance", "composition", "aggregation", "association"
-	if (!state.classRelationships.some(rel => rel.from === fromClassId && rel.to === toClassId && rel.type === relationType)) {
-		state.classRelationships.push({
-			id: generateId(),
-			from: fromClassId,
-			to: toClassId,
-			type: relationType,
-			label: ""
-		});
-		renderClassRelationships();
-	}
-}
-
-function removeClassRelationship(id) {
-	state.classRelationships = state.classRelationships.filter(rel => rel.id !== id);
-	renderClassRelationships();
-}
 
 
 
@@ -389,87 +300,107 @@ function removeStateTransition(id) {
 // EVENT LISTENERS SETUP
 // ===============================
 document.addEventListener("DOMContentLoaded", () => {
-  document.getElementById("diagramType").addEventListener("change", (e) => {
-    state.diagramType = e.target.value;
-    rotateNode(e.target.value);
-  });
+  	document.getElementById("diagramType").addEventListener("change", (e) => {
+    	state.diagramType = e.target.value;
+    	rotateNode(e.target.value);
+});
 
-  // COLOR PICKER EVENTS
-  document.getElementById("primaryColorPicker").addEventListener("input", (e) => {
+
+
+
+
+// COLOR PICKER EVENTS
+document.getElementById("primaryColorPicker").addEventListener("input", (e) => {
     state.primaryColor = e.target.value;
-  });
-  document.getElementById("bgColorPicker").addEventListener("input", (e) => {
-    state.backgroundColor = e.target.value;
-  });
-  document.getElementById("textColorPicker").addEventListener("input", (e) => {
-    state.textColor = e.target.value;
-  });
+});
+document.getElementById("bgColorPicker").addEventListener("input", (e) => {
+	state.backgroundColor = e.target.value;
+});
+document.getElementById("textColorPicker").addEventListener("input", (e) => {
+	state.textColor = e.target.value;
+});
 
-  // SEQUENCE EVENTS
-  document.getElementById("addActorBtn").addEventListener("click", () => {
-    const input = document.getElementById("actorInput");
-    addActor(state, input.value.trim(), renderActors);
-    input.value = "";
-  });
-  document.getElementById("actorInput").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      addActor(state, e.target.value.trim(), renderActors);
-      e.target.value = "";
-    }
-  });
-  document.getElementById("addMessageBtn").addEventListener("click", () => {
-    addMessage(state, renderMessages);
-  });
 
-  // CLASS EVENTS
-  document.getElementById("addClassBtn").addEventListener("click", () => {
-    const input = document.getElementById("classInput");
-    addClass(input.value.trim());
-    input.value = "";
-  });
-  document.getElementById("classInput").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      addClass(e.target.value.trim());
-      e.target.value = "";
-    }
-  });
+
+
+
+// SEQUENCE EVENTS
+document.getElementById("addActorBtn").addEventListener("click", () => {
+	const input = document.getElementById("actorInput");
+	addActor(state, input.value.trim(), renderActors);
+	input.value = "";
+});
+document.getElementById("actorInput").addEventListener("keypress", (e) => {
+	if (e.key === "Enter") {
+		addActor(state, e.target.value.trim(), renderActors);
+		e.target.value = "";
+	}
+});
+document.getElementById("addMessageBtn").addEventListener("click", () => {
+	addMessage(state, renderMessages);
+});
+
+
+
+
+
+
+// CLASS EVENTS
+document.getElementById("addClassBtn").addEventListener("click", () => {
+	const input = document.getElementById("classInput");
+	addClass(state, input.value.trim(), renderClasses);
+	input.value = "";
+});
+document.getElementById("classInput").addEventListener("keypress", (e) => {
+	if (e.key === "Enter") {
+		addClass(state, e.target.value.trim(), renderClasses);
+		e.target.value = "";
+	}
+});
   
-  // Class Relationships
-  const addClassRelBtn = document.getElementById("addClassRelationshipBtn");
-  if (addClassRelBtn) {
+  
+// Class Relationships
+const addClassRelBtn = document.getElementById("addClassRelationshipBtn");  
+if (addClassRelBtn) {
     addClassRelBtn.addEventListener("click", () => {
-      if (state.classes.length < 2) return alert("You need at least 2 classes.");
-      addClassRelationship(state.classes[0].id, state.classes[1].id, "association");
+      	if (state.classes.length < 2) return alert("You need at least 2 classes.");
+      	addClassRelationship(state, state.classes[0].id, state.classes[1].id, "association", renderClassRelationships);
     });
-  }
+}
 
-  // USECASE EVENTS
-  document.getElementById("addActorBtnUC").addEventListener("click", () => {
+
+
+
+
+
+  
+// USECASE EVENTS
+document.getElementById("addActorBtnUC").addEventListener("click", () => {
     const input = document.getElementById("actorInputUC");
     addActorUC(input.value.trim());
     input.value = "";
-  });
-  document.getElementById("actorInputUC").addEventListener("keypress", (e) => {
+});
+document.getElementById("actorInputUC").addEventListener("keypress", (e) => {
     if (e.key === "Enter") {
-      addActorUC(e.target.value.trim());
-      e.target.value = "";
+      	addActorUC(e.target.value.trim());
+    	e.target.value = "";
     }
-  });
-  document.getElementById("addUseCaseBtn").addEventListener("click", () => {
-    const input = document.getElementById("useCaseInput");
-    addUseCase(input.value.trim());
-    input.value = "";
-  });
-  document.getElementById("useCaseInput").addEventListener("keypress", (e) => {
-    if (e.key === "Enter") {
-      addUseCase(e.target.value.trim());
-      e.target.value = "";
-    }
-  });
-  document.getElementById("addUCLinkBtn").addEventListener("click", addUCLink);
-  document.getElementById("ucDirection").addEventListener("change", (e) => {
+});
+document.getElementById("addUseCaseBtn").addEventListener("click", () => {
+	const input = document.getElementById("useCaseInput");
+	addUseCase(input.value.trim());
+	input.value = "";
+});
+document.getElementById("useCaseInput").addEventListener("keypress", (e) => {
+	if (e.key === "Enter") {
+		addUseCase(e.target.value.trim());
+		e.target.value = "";
+	}
+});
+document.getElementById("addUCLinkBtn").addEventListener("click", addUCLink);
+document.getElementById("ucDirection").addEventListener("change", (e) => {
     state.ucDirection = e.target.value;
-  });
+});
 
   // ERD EVENTS
   document.getElementById("addEntityBtn").addEventListener("click", () => {
@@ -589,6 +520,8 @@ function renderMessages() {
   });
 }
 
+
+
 // ===============================
 // RENDER FUNCTIONS - CLASS
 // ===============================
@@ -600,12 +533,12 @@ function renderClasses() {
 		div.className = "list-item";
 		div.innerHTML = `
 			<span>${cls.name}</span>
-			<button data-id="${cls.id}">×</button>
+			<button data-id="${cls.id}">X</button>
 		`;
 		div.querySelector("span").addEventListener("click", () => renderClassDetails(cls.id));
 		div.querySelector("button").addEventListener("click", (e) => {
 			e.stopPropagation();
-			removeClass(e.target.dataset.id);
+			removeClass(state, e.target.dataset.id, renderClasses);
 		});
 		list.appendChild(div);
 	});
@@ -681,7 +614,7 @@ function renderClassDetails(classId) {
 		const staticStr = attr.isStatic ? "<<static>> " : "";
 		const displayStr = `${attr.visibility} ${staticStr}${attr.name}: ${attr.type}`;
 		div.innerHTML = `<span>${displayStr}</span><button data-index="${index}">×</button>`;
-		div.querySelector("button").addEventListener("click", (e) => removeAttributeFromClass(classId, parseInt(e.target.dataset.index)));
+		div.querySelector("button").addEventListener("click", (e) => removeAttributeFromClass(state, classId, parseInt(e.target.dataset.index), renderClassDetails));
 		attrList.appendChild(div);
 	});
 	
@@ -693,19 +626,19 @@ function renderClassDetails(classId) {
 		const abstractStr = method.isAbstract ? "<<abstract>> " : "";
 		const displayStr = `${method.visibility} ${staticStr}${abstractStr}${method.name}(${method.parameters}): ${method.returnType}`;
 		div.innerHTML = `<span>${displayStr}</span><button data-index="${index}">×</button>`;
-		div.querySelector("button").addEventListener("click", (e) => removeMethodFromClass(classId, parseInt(e.target.dataset.index)));
+		div.querySelector("button").addEventListener("click", (e) => removeMethodFromClass(state, classId, parseInt(e.target.dataset.index), renderClassDetails));
 		methodList.appendChild(div);
 	});
 	
 	document.getElementById("addAttributeBtn").addEventListener("click", () => {
 		const name = document.getElementById("attrName").value.trim();
 		if (!name) return alert("Attribute name cannot be empty.");
-		addAttributeToClass(classId, {
+		addAttributeToClass(state, classId, {
 			name,
 			visibility: document.getElementById("attrVisibility").value,
 			type: document.getElementById("attrType").value || "String",
 			isStatic: document.getElementById("attrStatic").checked
-		});
+		}, renderClassDetails);
 		document.getElementById("attrName").value = "";
 		document.getElementById("attrType").value = "";
 		document.getElementById("attrStatic").checked = false;
@@ -714,14 +647,14 @@ function renderClassDetails(classId) {
 	document.getElementById("addMethodBtn").addEventListener("click", () => {
 		const name = document.getElementById("methodName").value.trim();
 		if (!name) return alert("Method name cannot be empty.");
-		addMethodToClass(classId, {
+		addMethodToClass(state, classId, {
 			name,
 			visibility: document.getElementById("methodVisibility").value,
 			returnType: document.getElementById("methodReturn").value || "void",
 			parameters: document.getElementById("methodParams").value || "",
 			isStatic: document.getElementById("methodStatic").checked,
 			isAbstract: document.getElementById("methodAbstract").checked
-		});
+		}, renderClassDetails);
 		document.getElementById("methodName").value = "";
 		document.getElementById("methodParams").value = "";
 		document.getElementById("methodReturn").value = "";
@@ -915,7 +848,7 @@ function renderClassRelationships() {
 			rel.type = e.target.value;
 			renderClassRelationships();
 		});
-		div.querySelector("button").addEventListener("click", (e) => removeClassRelationship(e.target.dataset.id));
+		div.querySelector("button").addEventListener("click", (e) => removeClassRelationship(state, e.target.dataset.id, renderClassRelationships));
 		
 		container.appendChild(div);
 	});
