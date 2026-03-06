@@ -57,9 +57,9 @@ const state = {
 
 
 
-// ===============================
-// STATE MUTATION FUNCTIONS - SEQUENCE
-// ===============================
+// =============================================
+// STATE MUTATION FUNCTIONS - SEQUENCE DIAGRAMS
+// =============================================
 function addActor(name) {
 	if (!name) return alert("Actor name cannot be empty.");
 	if (state.actors.includes(name)) return alert("Actor already exists.");
@@ -92,9 +92,16 @@ function removeMessage(id) {
   renderMessages();
 }
 
-// ===============================
-// STATE MUTATION FUNCTIONS - CLASS
-// ===============================
+
+
+
+
+
+
+
+// ===========================================
+// STATE MUTATION FUNCTIONS - CLASS DIAGRAMS
+// ===========================================
 function addClass(name) {
 	if (!name) return alert("Class name cannot be empty.");
 	if (state.classes.some(cls => cls.name === name)) return alert("Class already exists.");
@@ -180,9 +187,13 @@ function removeClassRelationship(id) {
 	renderClassRelationships();
 }
 
-// ===============================
-// STATE MUTATION FUNCTIONS - USECASE
-// ===============================
+
+
+
+
+// ===============================================
+// STATE MUTATION FUNCTIONS - USECASE DIAGRAMS
+// ===============================================
 function addActorUC(name) {
 	if (!name) return alert("Actor name cannot be empty.");
 	if (state.actorsUC.includes(name)) return alert("Actor already exists.");
@@ -227,9 +238,14 @@ function removeUCLink(id) {
 	renderUCLinks();
 }
 
-// ===============================
-// STATE MUTATION FUNCTIONS - ERD
-// ===============================
+
+
+
+
+
+// ===============================================
+// STATE MUTATION FUNCTIONS - ERD DIAGRAMS
+// ===============================================
 function addEntity(name) {
 	if (!name) return alert("Entity name cannot be empty.");
 	if (state.entities.some(e => e.name === name)) return alert("Entity already exists.");
@@ -290,9 +306,14 @@ function removeErdRelationship(id) {
 	renderErdRelationships();
 }
 
-// ===============================
-// STATE MUTATION FUNCTIONS - ACTIVITY
-// ===============================
+
+
+
+
+
+// ===============================================
+// STATE MUTATION FUNCTIONS - ACTIVITY DIAGRAMS
+// ===============================================
 function addActivity(name) {
 	if (!name) return alert("Activity name cannot be empty.");
 	if (state.activities.some(a => a === name)) return alert("Activity already exists.");
@@ -322,9 +343,14 @@ function removeActivityFlow(id) {
 	renderActivityFlows();
 }
 
-// ===============================
-// STATE MUTATION FUNCTIONS - COMPONENT
-// ===============================
+
+
+
+
+
+// ===============================================
+// STATE MUTATION FUNCTIONS - COMPONENT DIAGRAMS
+// ===============================================
 function addComponent(name) {
 	if (!name) return alert("Component name cannot be empty.");
 	if (state.components.some(c => c === name)) return alert("Component already exists.");
@@ -354,9 +380,15 @@ function removeComponentDep(id) {
 	renderComponentDeps();
 }
 
-// ===============================
-// STATE MUTATION FUNCTIONS - STATE MACHINE
-// ===============================
+
+
+
+
+
+
+// ====================================================
+// STATE MUTATION FUNCTIONS - STATE MACHINE DIAGRAMS
+// ====================================================
 function addState(name) {
 	if (!name) return alert("State name cannot be empty.");
 	if (state.states.some(s => s === name)) return alert("State already exists.");
@@ -386,6 +418,14 @@ function removeStateTransition(id) {
 	state.stateTransitions = state.stateTransitions.filter(t => t.id !== id);
 	renderStateTransitions();
 }
+
+
+
+
+
+
+
+
 
 // ===============================
 // EVENT LISTENERS SETUP
