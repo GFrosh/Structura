@@ -3,6 +3,8 @@ const cors = require("cors");
 const { exec } = require("child_process");
 const fs = require("fs");
 const path = require("path");
+import type { Request, Response } from "express";
+import type { ExecException } from "child_process";
 const app = express();
 const now = () => {
     const date = new Date();
@@ -20,13 +22,13 @@ app.use(express.static(path.join(__dirname, "client")));
 app.use(cors());
 app.use(express.json());
 
-app.post("/generate", (req, res) => {
+app.post("/generate", (req: Request, res: Response) => {
 
     const umlText = req.body.uml;
 
     fs.writeFileSync("temp.puml", umlText);
 
-    exec("plantuml -tsvg temp.puml", (error) => {
+    exec("plantuml -tsvg temp.puml", (error: ExecException | null) => {
         if (error) {
             console.error(error);
             return res.status(500).send("Error generating diagram");
@@ -40,3 +42,5 @@ app.post("/generate", (req, res) => {
 app.listen(3000, "0.0.0.0", () => {
     console.log(now(), "Server started at http://localhost:3000");
 });
+
+export {};

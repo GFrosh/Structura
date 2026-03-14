@@ -9,7 +9,7 @@ export const addComponent = (state, name, render) => {
 
 export const removeComponent = (state, name, cbOne, cbTwo) => {
     state.components = state.components.filter(c => c !== name);
-    state.componentFlows = state.componentFlows.filter(f => f.from !== name && f.to !== name);
+    state.componentDeps = state.componentDeps.filter(f => f.from !== name && f.to !== name);
     cbOne();
     cbTwo();
 }
