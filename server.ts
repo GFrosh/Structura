@@ -47,7 +47,7 @@ app.post("/generate", (req: Request, res: Response) => {
         fs.rmSync(pumlFile, { force: true });
         fs.rmSync(svgFile, { force: true });
 
-        res.send(svg);
+        res.status(200).type("svg").send(svg);
     });
 });
 
