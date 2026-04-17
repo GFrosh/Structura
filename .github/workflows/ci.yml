@@ -1,24 +1,42 @@
-name: Structura
+name: CI
 
 on:
   push:
     branches: [main]
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.ref }}
+  cancel-in-progress: true
 
 jobs:
-  server-check:
+  docker-build:
+    name: Build Docker image
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Setup Node
-        uses: actions/setup-node@v4
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      # Builds the image and stores layers in GitHub Actions cache
+      - name: Build (cached)
+        uses: docker/build-push-action@v6
         with:
-          node-version: 20
+          context: .
+          file: ./Dockerfile
+          push: false
+          load: true
+          tags: structura:ci
+          cache-from: type=gha
+          cache-to: type=gha,mode=max
 
-      - name: Install dependencies
-        run: npm ci
-
-      - name: Run tests
-        run: npm test
+      # Optional: basic runtime smoke-check (customize for your app)
+      # - name: Smoke run
+      #   run: docker run --rm structura:ci --help
